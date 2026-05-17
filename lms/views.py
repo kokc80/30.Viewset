@@ -9,5 +9,4 @@ class CourseViewSet(ModelViewSet):
     serializer_class = CourseSerializer
 
 
-
 # Create your views here.
