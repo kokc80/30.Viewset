@@ -14,7 +14,9 @@ class Course(models.Model):
         verbose_name="Превью",
         help_text="Введите превью",
     )
-    descr = models.TextField(verbose_name="Описание", help_text="Введите описание")
+    descr = models.TextField(
+        blank=True, null=True, verbose_name="Описание", help_text="Введите описание"
+    )
 
 
 class Lesson(models.Model):
@@ -31,4 +33,4 @@ class Lesson(models.Model):
         help_text="Введите превью",
     )
     descr = models.TextField(verbose_name="Описание", help_text="Введите описание")
-    video = models.URLField( blank=True, null=True, verbose_name="Видео")
+    video = models.URLField(blank=True, null=True, verbose_name="Видео")
