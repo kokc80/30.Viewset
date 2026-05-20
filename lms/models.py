@@ -14,16 +14,22 @@ class Course(models.Model):
         verbose_name="Превью",
         help_text="Введите превью",
     )
-    descr = models.TextField(
-        blank=True, null=True, verbose_name="Описание", help_text="Введите описание"
-    )
+    descr = models.TextField(blank=True, null=True, verbose_name="Описание", help_text="Введите описание")
+
+    class Meta:
+        verbose_name = "Курс"
+        verbose_name_plural = "Курсы"
+        ordering = ['name']
+
+    def __str__(self):
+        return f"Курс {self.name}"
 
 
 class Lesson(models.Model):
     name = models.CharField(
         max_length=255,
-        verbose_name="Название курса",
-        help_text="Введите название курса",
+        verbose_name="Название урока",
+        help_text="Введите название урока",
     )
     preview = models.ImageField(
         upload_to="lms/preview",
@@ -32,5 +38,15 @@ class Lesson(models.Model):
         verbose_name="Превью",
         help_text="Введите превью",
     )
-    descr = models.TextField(verbose_name="Описание", help_text="Введите описание")
-    video = models.URLField(blank=True, null=True, verbose_name="Видео")
+    descr = models.TextField(verbose_name="Описание", help_text="Введите описание", blank=True)
+    video = models.URLField(blank=True, null=True, verbose_name="Видео", help_text="Укажите ссылку на видеоурок")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", related_name="lessons")
+
+    class Meta:
+        verbose_name = "Урок"
+        verbose_name_plural = "Уроки"
+        ordering = ['name']
+
+    def __str__(self):
+        return f"Урок {self.name}"
+
