@@ -1,7 +1,7 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.serializers import ModelSerializer
 
-from lms.models import Course, Lesson
+from lesson.models import Course, Lesson
 
 
 class CourseSerializer(ModelSerializer):

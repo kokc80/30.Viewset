@@ -8,7 +8,7 @@ class Course(models.Model):
         help_text="Введите название курса",
     )
     preview = models.ImageField(
-        upload_to="lms/preview",
+        upload_to="lesson/preview",
         blank=True,
         null=True,
         verbose_name="Превью",
@@ -32,15 +32,15 @@ class Lesson(models.Model):
         help_text="Введите название урока",
     )
     preview = models.ImageField(
-        upload_to="lms/preview",
+        upload_to="lesson/preview",
         blank=True,
         null=True,
         verbose_name="Превью",
         help_text="Введите превью",
     )
-    descr = models.TextField(verbose_name="Описание", help_text="Введите описание", blank=True)
+    descr = models.TextField(verbose_name="Описание", help_text="Введите описание", blank=True, null=True)
     video = models.URLField(blank=True, null=True, verbose_name="Видео", help_text="Укажите ссылку на видеоурок")
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", related_name="lessons")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", related_name="lessons", null=True, blank=True)
 
     class Meta:
         verbose_name = "Урок"
