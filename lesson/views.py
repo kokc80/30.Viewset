@@ -1,38 +1,37 @@
-from django.shortcuts import render
-from rest_framework.generics import (CreateAPIView, DestroyAPIView,
-                                     ListAPIView, RetrieveAPIView,
-                                     UpdateAPIView)
+from rest_framework.generics import (CreateAPIView, ListAPIView,
+                                     RetrieveAPIView, UpdateAPIView,
+                                     DestroyAPIView,)
 from rest_framework.viewsets import ModelViewSet
-
 from lesson.models import Course, Lesson
-from lesson.serializer import CourseSerializer, LessonSerializer
+from lesson.serializer import LessonSerializer, CourseSerializer
 
-
-class CourseViewSet(ModelViewSet): #Dog
+# для курса ViewSet классы
+class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
 
-class CourseCreateApiView(CreateAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+# для Lesson Generic классы
+class LessonCreateApiView(CreateAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
 
 
-class CourseListApiView(ListAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+class LessonListApiView(ListAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
 
 
-class CourseRetrieveApiView(RetrieveAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+class LessonRetrieveApiView(RetrieveAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
 
 
-class CourseUpdateApiView(UpdateAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+class LessonUpdateApiView(UpdateAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
 
 
-class CourseDestroyApiView(DestroyAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+class LessonDestroyApiView(DestroyAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
