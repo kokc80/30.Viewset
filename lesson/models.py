@@ -40,7 +40,7 @@ class Lesson(models.Model):
     )
     descr = models.TextField(verbose_name="Описание", help_text="Введите описание", blank=True, null=True)
     video = models.URLField(blank=True, null=True, verbose_name="Видео", help_text="Укажите ссылку на видеоурок")
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", related_name="lessons")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", related_name="lessons", default=1)
 
     class Meta:
         verbose_name = "Урок"
