@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 from lesson.models import Course, Lesson
 from lesson.serializer import LessonSerializer, CourseSerializer, CourseDetailSerializer
 
-# для курса ViewSet классы
+# для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
 
