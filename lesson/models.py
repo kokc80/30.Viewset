@@ -25,6 +25,7 @@ class Course(models.Model):
         return f"Курс {self.name}"
 
 
+# к урокам привязаны курсы
 class Lesson(models.Model):
     name = models.CharField(
         max_length=255,
