@@ -3,13 +3,17 @@ from rest_framework.generics import (CreateAPIView, ListAPIView,
                                      DestroyAPIView,)
 from rest_framework.viewsets import ModelViewSet
 from lesson.models import Course, Lesson
-from lesson.serializer import LessonSerializer, CourseSerializer
+from lesson.serializer import LessonSerializer, CourseSerializer, CourseDetailSerializer
 
 # для курса ViewSet классы
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
-    serializer_class = CourseSerializer
 
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return CourseDetailSerializer
+        else:
+            return CourseSerializer
 
 # для Lesson Generic классы
 class LessonCreateApiView(CreateAPIView):

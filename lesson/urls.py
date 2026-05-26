@@ -6,8 +6,9 @@ from lesson.views import (CourseViewSet, LessonListApiView, LessonCreateApiView,
                           LessonUpdateApiView, LessonDestroyApiView )
 
 app_name = LessonConfig.name
+
 router = SimpleRouter()
-router.register("", CourseViewSet)
+router.register("course", CourseViewSet)
 
 urlpatterns = [
     path("lessons/", LessonListApiView.as_view(), name="lessons_list"),
