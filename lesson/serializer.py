@@ -2,6 +2,7 @@ from django.core.serializers import serialize
 from rest_framework.fields import SerializerMethodField
 from rest_framework.generics import ListAPIView
 from rest_framework.serializers import ModelSerializer
+
 from lesson.models import Course, Lesson
 
 
@@ -12,7 +13,7 @@ class CourseSerializer(ModelSerializer):
 
 
 class CourseDetailSerializer(ModelSerializer):
-    lesson_count_on_course=SerializerMethodField()
+    lesson_count_on_course = SerializerMethodField()
 
     def get_lesson_count_on_course(self, course):
         return Lesson.objects.filter(course=course).count()
@@ -23,7 +24,8 @@ class CourseDetailSerializer(ModelSerializer):
 
 
 class LessonSerializer(ModelSerializer):
-    course=CourseSerializer(read_only=True)
+    course = CourseSerializer(read_only=True)
+
     class Meta:
         model = Lesson
         fields = "__all__"

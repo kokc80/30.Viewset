@@ -1,14 +1,15 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.db import models
 from django.shortcuts import render
-from django.db import  models
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics
-from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import CreateAPIView
+from rest_framework.viewsets import ModelViewSet
+
 from lesson.models import Course
-from users.models import User, Payment
+from users.models import Payment, User
 from users.serializers import PaymentSerializer, UserSerializer
 
 
@@ -16,8 +17,12 @@ class PaymentListAPIView(generics.ListAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ('course', 'lesson', 'payment_method',)
-    ordering_fields = ('payment_date',)
+    filterset_fields = (
+        "course",
+        "lesson",
+        "payment_method",
+    )
+    ordering_fields = ("payment_date",)
 
 
 class UserCreateAPIView(CreateAPIView):

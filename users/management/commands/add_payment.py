@@ -1,9 +1,13 @@
-from django.core.management.base import BaseCommand
-from users.models import Payment, User, Course, Lesson
 from datetime import date
+
+from django.core.management.base import BaseCommand
+
+from users.models import Course, Lesson, Payment, User
+
 
 class Command(BaseCommand):
     help = "Заполнение таблицы Payment"
+
     def handle(self, *args, **kwargs):
         # Удаляем существующие записи по оплате
         Payment.objects.all().delete()
@@ -28,5 +32,5 @@ class Command(BaseCommand):
                 payment_sum=amount,
                 payment_method=payment_method,
                 course=course,
-                lesson=lesson
+                lesson=lesson,
             )

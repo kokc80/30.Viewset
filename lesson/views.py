@@ -1,9 +1,15 @@
-from rest_framework.generics import (CreateAPIView, ListAPIView,
-                                     RetrieveAPIView, UpdateAPIView,
-                                     DestroyAPIView,)
+from rest_framework.generics import (
+    CreateAPIView,
+    DestroyAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+)
 from rest_framework.viewsets import ModelViewSet
+
 from lesson.models import Course, Lesson
-from lesson.serializer import LessonSerializer, CourseSerializer, CourseDetailSerializer
+from lesson.serializer import CourseDetailSerializer, CourseSerializer, LessonSerializer
+
 
 # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
 class CourseViewSet(ModelViewSet):
@@ -14,6 +20,7 @@ class CourseViewSet(ModelViewSet):
             return CourseDetailSerializer
         else:
             return CourseSerializer
+
 
 # для Lesson Generic классы
 class LessonCreateApiView(CreateAPIView):
