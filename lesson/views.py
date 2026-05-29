@@ -1,3 +1,4 @@
+from django_filters import OrderingFilter
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -6,9 +7,11 @@ from rest_framework.generics import (
     UpdateAPIView,
 )
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import filters, generics
+from django_filters.rest_framework import DjangoFilterBackend
+from lesson.models import Course, Lesson, Payment
+from lesson.serializer import CourseDetailSerializer, CourseSerializer, LessonSerializer, PaymentSerializer
 
-from lesson.models import Course, Lesson
-from lesson.serializer import CourseDetailSerializer, CourseSerializer, LessonSerializer
 
 
 # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
@@ -46,3 +49,14 @@ class LessonUpdateApiView(UpdateAPIView):
 class LessonDestroyApiView(DestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+
+class PaymentListAPIView(generics.ListAPIView):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = (
+        "course",
+        "lesson",
+        "payment_method",
+    )
+    ordering_fields = ("payment_date",)

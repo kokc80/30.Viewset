@@ -2,8 +2,8 @@ from django.core.serializers import serialize
 from rest_framework.fields import SerializerMethodField
 from rest_framework.generics import ListAPIView
 from rest_framework.serializers import ModelSerializer
-
-from lesson.models import Course, Lesson
+from rest_framework import serializers
+from lesson.models import Course, Lesson, Payment
 
 
 class CourseSerializer(ModelSerializer):
@@ -28,4 +28,9 @@ class LessonSerializer(ModelSerializer):
 
     class Meta:
         model = Lesson
+        fields = "__all__"
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
         fields = "__all__"

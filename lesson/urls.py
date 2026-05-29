@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework.routers import SimpleRouter
-
+from lesson.views import PaymentListAPIView
 from lesson.apps import LessonConfig
 from lesson.views import (
     CourseViewSet,
@@ -28,6 +28,7 @@ urlpatterns = [
     path(
         "lessons/<int:pk>/update/", LessonUpdateApiView.as_view(), name="lessons_update"
     ),
+    path("payment_list/", PaymentListAPIView.as_view(), name="payment_list"),
 ]
 
 urlpatterns += router.urls

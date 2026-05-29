@@ -9,8 +9,6 @@ from django.contrib.auth.models import (
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from lesson.models import Course, Lesson
-
 
 def validate_phone(value):
     """Валидатор для проверки формата телефона."""
@@ -120,23 +118,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email.split("@")[0]
 
 
-class Payment(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="оплативший_пользователь"
-    )
-    payment_date = models.DateField(auto_now_add=True, verbose_name="дата_оплаты")
-    course = models.ForeignKey(
-        Course, on_delete=models.CASCADE, related_name="оплаченный_курс", null=True
-    )
-    lesson = models.ForeignKey(
-        Lesson, on_delete=models.CASCADE, related_name="оплаченный_урок", null=True
-    )
-    payment_sum = models.DecimalField(max_digits=6, decimal_places=2)
-    payment_method = models.CharField(
-        choices=[("1", "Наличные"), ("2", "Перевод")],
-        verbose_name="способ_оплаты",
-        max_length=10,
-    )
+
 
     def __str__(self):
         item = self.course or self.lesson

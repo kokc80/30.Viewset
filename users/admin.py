@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from lesson.models import Course, Lesson
-from users.models import Payment, User
+from lesson.models import Course, Lesson, Payment
+from users.models import User
 
 # Register your models here.
 
