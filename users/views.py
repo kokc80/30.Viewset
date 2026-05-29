@@ -11,7 +11,7 @@ from rest_framework.viewsets import ModelViewSet
 from lesson.models import Course
 from users.models import Payment, User
 from users.serializers import PaymentSerializer, UserSerializer
-
+from rest_framework.permissions import AllowAny
 
 class PaymentListAPIView(generics.ListAPIView):
     queryset = Payment.objects.all()
@@ -27,8 +27,8 @@ class PaymentListAPIView(generics.ListAPIView):
 
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserSerializer
-    queryset = User.objects.all()
-
+    # queryset = User.objects.all() для create не нужен
+    permission_classes = [AllowAny]
     def perform_create(self, serializer):
         user = serializer.save(is_active=True)
         user.set_password(user.password)

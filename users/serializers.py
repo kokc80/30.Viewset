@@ -9,7 +9,6 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
-        # fields = ['id', 'username', 'email', 'first_name', 'last_name']  # Укажите нужные поля
 
 
 class PaymentSerializer(serializers.ModelSerializer):
