@@ -1,11 +1,8 @@
 import os
 import re
 
-from django.contrib.auth.models import (
-    AbstractBaseUser,
-    BaseUserManager,
-    PermissionsMixin,
-)
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
+                                        PermissionsMixin)
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -116,15 +113,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.email.split("@")[0]
-
-
-
-
-    def __str__(self):
-        item = self.course or self.lesson
-        return f"{self.user} — {item} ({self.payment_date})"
-
-    class Meta:
-        verbose_name = "платеж"
-        verbose_name_plural = "платежи"
-        ordering = ("payment_date",)

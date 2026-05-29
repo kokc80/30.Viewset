@@ -1,5 +1,7 @@
 from django.db import models
+
 from users.models import User
+
 
 class Course(models.Model):
     name = models.CharField(
@@ -14,11 +16,19 @@ class Course(models.Model):
         verbose_name="Превью",
         help_text="Введите превью",
     )
-    descr = models.TextField(
-        blank=True, null=True, verbose_name="Описание", help_text="Введите описание"
-    ),
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Владелец курса",
-                              help_text="Укажите владельца курса")
+    descr = (
+        models.TextField(
+            blank=True, null=True, verbose_name="Описание", help_text="Введите описание"
+        ),
+    )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Владелец курса",
+        help_text="Укажите владельца курса",
+    )
 
     class Meta:
         verbose_name = "Курс"
@@ -30,6 +40,7 @@ class Course(models.Model):
 
 
 # к урокам привязаны курсы
+
 
 class Lesson(models.Model):
     name = models.CharField(
@@ -60,8 +71,15 @@ class Lesson(models.Model):
         related_name="lessons",
         default=1,
     )
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Владелец урока",
-                              help_text="Укажите владельца урока")
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Владелец урока",
+        help_text="Укажите владельца урока",
+    )
+
 
 class Payment(models.Model):
     user = models.ForeignKey(
@@ -81,10 +99,11 @@ class Payment(models.Model):
         max_length=10,
     )
 
-    class Meta:
-        verbose_name = "Урок"
-        verbose_name_plural = "Уроки"
-        ordering = ["name"]
-
     def __str__(self):
-        return f"Урок {self.name}"
+        item = self.course or self.lesson
+        return f"{self.user} — {item} ({self.payment_date})"
+
+    class Meta:
+        verbose_name = "платеж"
+        verbose_name_plural = "платежи"
+        ordering = ("payment_date",)

@@ -1,6 +1,8 @@
+from django.contrib.auth.models import User
 from rest_framework.generics import CreateAPIView
-from users.serializers import UserSerializer
+from rest_framework.permissions import AllowAny
 
+from users.serializers import UserSerializer
 
 # class UserCreateAPIView(CreateAPIView):
 #     serializer_class = UserSerializer
@@ -11,11 +13,11 @@ from users.serializers import UserSerializer
 #         user.set_password(user.password)
 #         user.save()
 
-from rest_framework.permissions import AllowAny
-from django.contrib.auth.models import User
 
 
 class UserCreateAPIView(CreateAPIView):
+    """Разрешения выставлено для всех непосредственно в контролере"""
+
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
 
@@ -24,7 +26,7 @@ class UserCreateAPIView(CreateAPIView):
         user = serializer.save(is_active=True)
 
         # Устанавливаем пароль через сериализатор или напрямую
-        password = serializer.validated_data.get('password')
+        password = serializer.validated_data.get("password")
         if password:
             user.set_password(password)
             user.save()

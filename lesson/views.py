@@ -1,17 +1,14 @@
 from django_filters import OrderingFilter
-from rest_framework.generics import (
-    CreateAPIView,
-    DestroyAPIView,
-    ListAPIView,
-    RetrieveAPIView,
-    UpdateAPIView,
-)
-from rest_framework.viewsets import ModelViewSet
-from rest_framework import filters, generics
 from django_filters.rest_framework import DjangoFilterBackend
-from lesson.models import Course, Lesson, Payment
-from lesson.serializer import CourseDetailSerializer, CourseSerializer, LessonSerializer, PaymentSerializer
+from rest_framework import filters, generics
+from rest_framework.generics import (CreateAPIView, DestroyAPIView,
+                                     ListAPIView, RetrieveAPIView,
+                                     UpdateAPIView)
+from rest_framework.viewsets import ModelViewSet
 
+from lesson.models import Course, Lesson, Payment
+from lesson.serializer import (CourseDetailSerializer, CourseSerializer,
+                               LessonSerializer, PaymentSerializer)
 
 
 # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
@@ -24,11 +21,21 @@ class CourseViewSet(ModelViewSet):
         else:
             return CourseSerializer
 
+    def perform_create(self, serializer):
+        course = serializer.save
+        course.owner = self.request.user
+        course.save()
+
 
 # для Lesson Generic классы
 class LessonCreateApiView(CreateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+
+    def perform_create(self, serializer):
+        lesson = serializer.save
+        lesson.owner = self.request.user
+        lesson.save()
 
 
 class LessonListApiView(ListAPIView):
@@ -49,6 +56,7 @@ class LessonUpdateApiView(UpdateAPIView):
 class LessonDestroyApiView(DestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+
 
 class PaymentListAPIView(generics.ListAPIView):
     queryset = Payment.objects.all()
