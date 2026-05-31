@@ -1,19 +1,34 @@
 from django.contrib import admin
 
-from lesson.models import Lesson, Course
-from users.models import User, Payment
+from lesson.models import Course, Lesson, Payment
+from users.models import User
 
 # Register your models here.
 
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("email", "phone", "is_superuser", "is_active", "is_staff", "date_joined")
+    list_display = (
+        "email",
+        "phone",
+        "is_superuser",
+        "is_active",
+        "is_staff",
+        "date_joined",
+    )
     search_fields = ("email",)
 
 
 @admin.register(Payment)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("user", "payment_date", "course", "lesson", "payment_sum", "payment_method")
+    list_display = (
+        "user",
+        "payment_date",
+        "course",
+        "lesson",
+        "payment_sum",
+        "payment_method",
+    )
     search_fields = ("user",)
 
 

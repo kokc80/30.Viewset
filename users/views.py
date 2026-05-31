@@ -1,24 +1,35 @@
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import render
-from django.db import  models
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
-from rest_framework.viewsets import ModelViewSet
+from django.contrib.auth.models import User
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import AllowAny
 
-from lesson.models import Course
-from users.models import User
+from users.serializers import UserSerializer
+
+# class UserCreateAPIView(CreateAPIView):
+#     serializer_class = UserSerializer
+#     # queryset = User.objects.all() для create не нужен
+#     permission_classes = [AllowAny]
+#     def perform_create(self, serializer):
+#         user = serializer.save(is_active=True)
+#         user.set_password(user.password)
+#         user.save()
 
 
-# Create your views here.
-class Payment(ModelViewSet):
-    queryset = User.objects.all()
-    filter_backends =  [DjangoFilterBackend,filters.OrderingFilter]
-    fiterset_fields = ["course", "lesson", ]
-    ordering_fields = ("payment_sum",)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name="Пользователь"),
-    payment_date = models.DateField(auto_now_add=True, verbose_name='дата_оплаты'),
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE).
-    payment_sum = models.DecimalField(max_digits=6, decimal_places=2),
-    payment_method = models.CharField(choices=[('1', 'Наличные'), ('2', 'Перевод')], verbose_name='способ_оплаты',
-                                      max_length=10)
+
+class UserCreateAPIView(CreateAPIView):
+    """Разрешения выставлено для всех непосредственно в контролере"""
+
+    permission_classes = [AllowAny]
+    serializer_class = UserSerializer
+
+    def perform_create(self, serializer):
+        # Получаем данные из сериализатора без сохранения
+        user = serializer.save(is_active=True)
+
+        # Устанавливаем пароль через сериализатор или напрямую
+        password = serializer.validated_data.get("password")
+        if password:
+            user.set_password(password)
+            user.save()
+        else:
+            # Если пароля нет, сохраняем без изменения пароля
+            user.save()

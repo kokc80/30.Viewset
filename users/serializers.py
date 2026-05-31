@@ -1,7 +1,16 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework.serializers import ModelSerializer
 
-class UserSerializer(serializers.ModelSerializer):
+from users.models import User
+
+
+class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name']  # Укажите нужные поля
+        fields = "__all__"
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            email=validated_data.get("email", ""), password=validated_data["password"]
+        )
+        return user
