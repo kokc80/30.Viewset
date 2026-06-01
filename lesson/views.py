@@ -9,6 +9,7 @@ from rest_framework.viewsets import ModelViewSet
 from lesson.models import Course, Lesson, Payment
 from lesson.serializer import (CourseDetailSerializer, CourseSerializer,
                                LessonSerializer, PaymentSerializer)
+from users.permissions import IsModer
 
 
 # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
@@ -26,6 +27,13 @@ class CourseViewSet(ModelViewSet):
         course.owner = self.request.user
         course.save()
 
+    def get_permissions(self):
+        if self.action in ["create","destroy"]:
+            self.permissions_classes = (~IsModer,)
+        elif self.action in ["update","retrieve"]:
+            self.permissions_classes = (IsModer,)
+        return super().get_permissions()
+
 
 # для Lesson Generic классы
 class LessonCreateApiView(CreateAPIView):
@@ -36,6 +44,7 @@ class LessonCreateApiView(CreateAPIView):
         lesson = serializer.save(owner=self.request.user)
         lesson.owner = self.request.user
         lesson.save()
+
 
 
 class LessonListApiView(ListAPIView):
