@@ -24,7 +24,6 @@ class UserCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         # Получаем данные из сериализатора без сохранения
         user = serializer.save(is_active=True)
-
         # Устанавливаем пароль через сериализатор или напрямую
         password = serializer.validated_data.get("password")
         if password:
