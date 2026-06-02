@@ -8,7 +8,7 @@ class IsModer(permissions.BasePermission):
 
 class IsNotModer(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_authenticated and not request.user.is_moderator
+        return request.user.is_authenticated and not request.user.IsModer
 
 
 class IsOwner(permissions.BasePermission):
