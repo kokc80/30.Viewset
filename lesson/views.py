@@ -4,12 +4,14 @@ from rest_framework import filters, generics
 from rest_framework.generics import (CreateAPIView, DestroyAPIView,
                                      ListAPIView, RetrieveAPIView,
                                      UpdateAPIView)
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from lesson.models import Course, Lesson, Payment
 from lesson.serializer import (CourseDetailSerializer, CourseSerializer,
                                LessonSerializer, PaymentSerializer)
-from users.permissions import IsModer,IsNotModer
+from users import permissions
+from users.permissions import IsModer,IsNotModer, IsOwner
 
 
 # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
@@ -27,12 +29,13 @@ class CourseViewSet(ModelViewSet):
         course.owner = self.request.user
         course.save()
 
+
     def get_permissions(self):
-        if self.action in ["create","destroy"]:
-            self.permissions_classes = (IsNotModer,)
-        elif self.action in ["update","retrieve"]:
-            self.permissions_classes = (IsModer,)
-        return super().get_permissions()
+        if self.action in ["create", "destroy"]:
+            permission_classes = [IsNotModer]
+        elif self.action in ["update", "retrieve"]:
+            permission_classes = [IsModer]
+        return [permission() for permission in permission_classes]
 
 
 # для Lesson Generic классы
@@ -45,15 +48,19 @@ class LessonCreateApiView(CreateAPIView):
         lesson.owner = self.request.user
         lesson.save()
 
+    permission_classes = [IsAuthenticated]
+
 
 class LessonListApiView(ListAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class LessonRetrieveApiView(RetrieveAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class LessonUpdateApiView(UpdateAPIView):
@@ -64,6 +71,7 @@ class LessonUpdateApiView(UpdateAPIView):
 class LessonDestroyApiView(DestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsOwner]
 
 
 class PaymentListAPIView(generics.ListAPIView):

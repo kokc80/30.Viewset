@@ -7,8 +7,11 @@ class IsModer(permissions.BasePermission):
 
 
 class IsNotModer(permissions.BasePermission):
+    """Проверка, что пользователь не модератор"""
     def has_permission(self, request, view):
-        return request.user.is_authenticated and not request.user.IsModer
+        if not request.user.is_authenticated:
+            return False
+        return not request.user.groups.filter(name="moders").exists()
 
 
 class IsOwner(permissions.BasePermission):
