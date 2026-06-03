@@ -11,7 +11,7 @@ from lesson.models import Course, Lesson, Payment
 from lesson.serializer import (CourseDetailSerializer, CourseSerializer,
                                LessonSerializer, PaymentSerializer)
 from users import permissions
-from users.permissions import IsModer,IsNotModer, IsOwner
+from users.permissions import IsModer, IsNotModer, IsOwner
 
 
 # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
@@ -29,10 +29,12 @@ class CourseViewSet(ModelViewSet):
 
 
     def get_permissions(self):
-        if self.action in ["create", "destroy"]:
-            permission_classes = [IsNotModer]
+        if self.action == ["create",]:
+            permission_classes = [IsAuthenticated]
         elif self.action in ["update", "retrieve"]:
-            permission_classes = [IsModer]
+            permission_classes = [IsModer | IsOwner ]
+        elif self.action == "destroy":
+            permission_classes = [IsNotModer, IsOwner]
         return [permission() for permission in permission_classes]
 
 
