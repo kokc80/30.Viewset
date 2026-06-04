@@ -1,7 +1,8 @@
 from django.db import models
-
+from config import settings
 from users.models import User
 
+NULLABLE = {"null": True, "blank": True}
 
 class Course(models.Model):
     name = models.CharField(
@@ -40,8 +41,6 @@ class Course(models.Model):
 
 
 # к урокам привязаны курсы
-
-
 class Lesson(models.Model):
     name = models.CharField(
         max_length=255,
@@ -107,3 +106,20 @@ class Payment(models.Model):
         verbose_name = "платеж"
         verbose_name_plural = "платежи"
         ordering = ("payment_date",)
+
+
+class SubscriptionCourse(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Подписчик",
+        **NULLABLE,
+    )
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс")
+
+    class Meta:
+        verbose_name = "Подписка на курс"
+        verbose_name_plural = "Подписки на курс"
+
+    def __str__(self):
+        return f"Пользователь:{self.user}, Подписки: {self.course}"
