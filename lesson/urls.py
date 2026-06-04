@@ -8,10 +8,8 @@ from lesson.views import (CourseViewSet, LessonCreateApiView,
                           PaymentListAPIView)
 
 app_name = LessonConfig.name
-
 router = SimpleRouter()
 router.register("course", CourseViewSet)
-
 urlpatterns = [
     path("lessons/", LessonListApiView.as_view(), name="lessons_list"),
     path("lessons/<int:pk>/", LessonRetrieveApiView.as_view(), name="lessons_retrieve"),

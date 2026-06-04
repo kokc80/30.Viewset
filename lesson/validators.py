@@ -5,9 +5,7 @@ class LinkYT:
         self.field=field
 
     def __call__(self, value):
-        reg = re.compile(
-            r'^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)\w+'
-        )
+        reg = re.compile(r'^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)\w+')
         if not reg.match(value):
             raise ValidationError("Ссылка не принадлежит YouTube")
 

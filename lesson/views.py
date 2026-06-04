@@ -57,7 +57,7 @@ class LessonListApiView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.groups.filter(name='moder').exists():
+        if user.groups.filter(name="moder").exists():
             return Lesson.objects.all()
         return Lesson.objects.filter(owner=user)
 
@@ -68,7 +68,7 @@ class LessonRetrieveApiView(RetrieveAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.has_perm('app.can_moderate'):  # замените на ваше условие для модератора
+        if user.has_perm("app.can_moderate"):  # замените на ваше условие для модератора
             return Lesson.objects.all()
         return Lesson.objects.filter(owner=user)
 
@@ -79,7 +79,7 @@ class LessonUpdateApiView(UpdateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.groups.filter(name='moder').exists():
+        if user.groups.filter(name="moder").exists():
             return Lesson.objects.all()
         return Lesson.objects.filter(owner=user)
 
@@ -90,7 +90,7 @@ class LessonDestroyApiView(DestroyAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.groups.filter(name='moders').exists():
+        if user.groups.filter(name="moders").exists():
             return Lesson.objects.all()
         return Lesson.objects.filter(owner=user)
 
