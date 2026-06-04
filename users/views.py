@@ -14,7 +14,6 @@ from users.serializers import UserSerializer
 #         user.save()
 
 
-
 class UserCreateAPIView(CreateAPIView):
     """Разрешения выставлено для всех непосредственно в контролере"""
 

@@ -4,6 +4,7 @@ from users.models import User
 
 NULLABLE = {"null": True, "blank": True}
 
+
 class Course(models.Model):
     name = models.CharField(
         max_length=255,
