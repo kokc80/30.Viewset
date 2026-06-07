@@ -67,6 +67,7 @@ class CourseViewSet(
 
         return [permission() for permission in permission_classes]
 
+
 class LessonCreateApiView(CreateAPIView):  # для Lesson Generic классы
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
@@ -149,4 +150,3 @@ class SubscriptionCourseAPIView(APIView):
         return Response({"message": message})
 
     permission_classes = [IsAuthenticated]
-
