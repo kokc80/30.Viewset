@@ -27,8 +27,8 @@ from rest_framework.response import Response
 class CourseViewSet(
     ModelViewSet
 ):  # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
+    serializer_class = CourseSerializer
     queryset = Course.objects.all()  # нужен для роутер
-
     def get_queryset(self):
         return Course.objects.filter(owner=self.request.user)
 
@@ -72,7 +72,6 @@ class LessonCreateApiView(CreateAPIView):  # для Lesson Generic классы
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
@@ -80,7 +79,6 @@ class LessonCreateApiView(CreateAPIView):  # для Lesson Generic классы
 class LessonListApiView(ListAPIView):
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
-
     def get_queryset(self):
         user = self.request.user
         if user.groups.filter(name="moder").exists():
@@ -91,7 +89,6 @@ class LessonListApiView(ListAPIView):
 class LessonRetrieveApiView(RetrieveAPIView):
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
-
     def get_queryset(self):
         user = self.request.user
         if user.has_perm("app.can_moderate"):  # замените на ваше условие для модератора
@@ -102,7 +99,6 @@ class LessonRetrieveApiView(RetrieveAPIView):
 class LessonUpdateApiView(UpdateAPIView):
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
-
     def get_queryset(self):
         user = self.request.user
         if user.groups.filter(name="moder").exists():
@@ -116,7 +112,7 @@ class LessonDestroyApiView(DestroyAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.groups.filter(name="moders").exists():
+        if user.groups.filter(name="moder").exists():
             return Lesson.objects.all()
         return Lesson.objects.filter(owner=user)
 
@@ -125,11 +121,7 @@ class PaymentListAPIView(generics.ListAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = (
-        "course",
-        "lesson",
-        "payment_method",
-    )
+    filterset_fields = ("course", "lesson", "payment_method",)
     ordering_fields = ("payment_date",)
 
 
