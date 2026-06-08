@@ -18,11 +18,10 @@ class Course(models.Model):
         verbose_name="Превью",
         help_text="Введите превью",
     )
-    descr = (
-        models.TextField(
+    descr = models.TextField(
             blank=True, null=True, verbose_name="Описание", help_text="Введите описание"
-        ),
     )
+
     owner = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
