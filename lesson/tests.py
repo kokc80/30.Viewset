@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from users.models import User
 from lesson.models import Course, Lesson
-
+from rest_framework.test import force_authenticate
 
 
 class LessonTestCase(APITestCase):
