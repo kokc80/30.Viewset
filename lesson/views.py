@@ -1,3 +1,4 @@
+from django.contrib.admin.templatetags.admin_list import pagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics
 from rest_framework.generics import (
@@ -12,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from lesson.models import Course, Lesson, Payment, SubscriptionCourse
+from lesson.paginations import CustomPagination
 from lesson.serializer import (
     CourseDetailSerializer,
     CourseSerializer,
@@ -29,6 +31,8 @@ class CourseViewSet(
 ):  # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
     serializer_class = CourseSerializer
     queryset = Course.objects.all()  # нужен для роутер
+    ordering_fields = ("name")
+    pagination_class = CustomPagination
     def get_queryset(self):
         return Course.objects.filter(owner=self.request.user)
 
@@ -72,6 +76,8 @@ class LessonCreateApiView(CreateAPIView):  # для Lesson Generic классы
 class LessonListApiView(ListAPIView):
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
+    ordering_fields = ("name")
+    pagination_class = CustomPagination
     def get_queryset(self):
         user = self.request.user
         if user.groups.filter(name="moder").exists():
@@ -102,7 +108,7 @@ class LessonUpdateApiView(UpdateAPIView):
 class LessonDestroyApiView(DestroyAPIView):
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
-
+    pagination_class = CustomPagination
     def get_queryset(self):
         user = self.request.user
         if user.groups.filter(name="moder").exists():

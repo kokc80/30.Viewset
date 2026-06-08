@@ -79,7 +79,10 @@ class Lesson(models.Model):
         verbose_name="Владелец урока",
         help_text="Укажите владельца урока",
     )
-
+    class Meta:
+        verbose_name = "Урок"
+        verbose_name_plural = "Уроки"
+        ordering = ["name"]
 
 class Payment(models.Model):
     user = models.ForeignKey(
