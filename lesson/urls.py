@@ -1,6 +1,5 @@
 from django.urls import path
 from rest_framework.routers import SimpleRouter
-
 from lesson.apps import LessonConfig
 from lesson.views import (
     CourseViewSet,

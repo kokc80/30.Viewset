@@ -41,14 +41,7 @@ class CourseViewSet(
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    # def get_permissions(self):
-    #     if self.action == "create":
-    #         permission_classes = [IsAuthenticated]
-    #     elif self.action in ["update", "retrieve"]:
-    #         permission_classes = [IsModer | IsOwner]
-    #     elif self.action == "destroy":
-    #         permission_classes = [IsNotModer, IsOwner]
-    #     return [permission() for permission in permission_classes]
+
     def get_permissions(self):
         if self.action == "create":
             permission_classes = [IsAuthenticated]
