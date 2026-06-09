@@ -1,6 +1,5 @@
 import os
 import re
-
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -8,6 +7,10 @@ from django.contrib.auth.models import (
 )
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import PositiveIntegerField
+
+
+NULLABLE = {"null": True, "blank": True}
 
 
 def validate_phone(value):
@@ -116,3 +119,35 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.email.split("@")[0]
+
+
+class CoursePay(models.Model):
+    amount = PositiveIntegerField(
+        verbose_name="Платеж за курс",
+        help_text="Укажите сумму оплаты",
+    )
+
+    session_id = models.CharField(
+        max_length=255,
+        verbose_name="Id сессии",
+        help_text="Укажите Id сессии",
+        **NULLABLE
+    )
+
+    pay_link = models.URLField(
+        max_length=400, #длина ссылки
+        verbose_name="Ссылка на оплату",
+        help_text="Укажите ссылку на оплату",
+    )
+
+    pay_user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        verbose_name="пользователь",
+        help_text="Укажите пользователя",
+        **NULLABLE
+    )
+
+    class Meta:
+        verbose_name = "Оплата курса"
+        verbose_name_plural = "Оплаты курсов"

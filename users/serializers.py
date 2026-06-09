@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 
-from users.models import User
+from users.models import User, CoursePay
 
 
 class UserSerializer(ModelSerializer):
@@ -14,3 +14,9 @@ class UserSerializer(ModelSerializer):
             email=validated_data.get("email", ""), password=validated_data["password"]
         )
         return user
+
+
+class CoursePaySerializer(ModelSerializer):
+    class Meta:
+        model = CoursePay
+        fields ="__all__"
