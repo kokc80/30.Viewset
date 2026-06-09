@@ -1,5 +1,7 @@
 from django.contrib.admin.templatetags.admin_list import pagination
+from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import filters, generics
 from rest_framework.generics import (
     CreateAPIView,
@@ -25,6 +27,10 @@ from users.permissions import IsModer, IsNotModer, IsOwner
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+
+@method_decorator(name='list', decorator=swagger_auto_schema(
+    operation_description="Описание метода list для модели Course"
+))
 
 class CourseViewSet(
     ModelViewSet

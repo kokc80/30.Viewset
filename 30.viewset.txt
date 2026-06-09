@@ -15,5 +15,7 @@
 	python manage.py migrate auth zero
 	
 	pip install coverage 
+	pip install -U drf-yasg
 	"django-insecure-0tv-8@q6ehjq4_3hvz$3t1tn20#8#c*1=qya!f4$@=@_5dw1hi"
-	
+
+	#14:00

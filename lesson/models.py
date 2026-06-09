@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.fields import PositiveIntegerField
+
 from config import settings
 from users.models import User
 
@@ -126,3 +128,36 @@ class SubscriptionCourse(models.Model):
 
     def __str__(self):
         return f"Пользователь:{self.user}, Подписки: {self.course}"
+
+
+class CoursePay(models.Model):
+    amount = PositiveIntegerField(
+        verbose_name="Платеж за курс",
+        help_text="Укажите сумму оплаты",
+    )
+
+    session_id = models.CharField(
+        max_length=255,
+        verbose_name="Id сессии",
+        help_text="Укажите Id сессии",
+        **NULLABLE
+    )
+
+    pay_link = models.URLField(
+        max_length=400, #длина ссылки
+        verbose_name="Ссылка на оплату",
+        help_text="Укажите ссылку на оплату",
+    )
+
+    pay_user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        verbose_name="пользователь",
+        help_text="Укажите пользователя",
+        **NULLABLE
+    )
+
+    class Meta:
+        verbose_name = "Оплата курса"
+        verbose_name_plural = "Оплаты курсов"
+
