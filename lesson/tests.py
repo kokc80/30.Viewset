@@ -21,22 +21,24 @@ class LessonTestCase(APITestCase):
         data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data.get("name"), self.lesson.name)
-        #  спросить как сравнивать?
-        # self.assertEqual(data.get("course"), self.lesson.course)
 
     def test_lesson_create(self):
         url = reverse("lessons:lessons_create")
-        course_t = self.course
         data = {
             "name": "Тестовый урок",
             "descr": "Описание",
-            "course": "Тестовый курс",
-            "owner": self.user
+            "course": self.course.pk,
+            "video": "http://www.youtube.com/watch?v=xh4AyiP6YYs",
+            "owner": self.user.pk
         }
-
-        response =self.client.post(url, data)
+        response = self.client.post(url, data)
+        print("EEEE",response.json())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Lesson.objects.all().count(), 2)
 
-
-
-# Create your tests here.
+    def test_lesson_update(self):
+        url = reverse("lessons:lessons_retrieve", args=(self.lesson.pk,))
+        data = {"name" : "Тестовый урок обн", "user" : self.user.pk}
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data.get("name"), "Тестовый урок обн")
