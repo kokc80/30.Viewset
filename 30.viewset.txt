@@ -14,5 +14,6 @@
 	python manage.py startapp users
 	python manage.py migrate auth zero
 	
-	
+	pip install coverage 
 	"django-insecure-0tv-8@q6ehjq4_3hvz$3t1tn20#8#c*1=qya!f4$@=@_5dw1hi"
+	
