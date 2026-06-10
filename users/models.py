@@ -138,6 +138,7 @@ class CoursePay(models.Model):
         max_length=400, #длина ссылки
         verbose_name="Ссылка на оплату",
         help_text="Укажите ссылку на оплату",
+        **NULLABLE
     )
 
     pay_user = models.ForeignKey(

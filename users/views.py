@@ -32,7 +32,7 @@ class CoursePayCreateAPIView(CreateAPIView):
     serializer_class = CoursePaySerializer
 
     def perform_create(self, serializer):
-        payment = serializer.save(users=self.request.user)
+        payment = serializer.save(pay_user=self.request.user)
         amount_in_dollars = convert_rub_to_usd(payment.amount)
         price = create_stripe_price(amount_in_dollars)
         session_id, payment_link = create_stripe_session(price)

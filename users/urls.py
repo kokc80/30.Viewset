@@ -23,6 +23,6 @@ urlpatterns = [
     ),
     path(
         "payment_course/", CoursePayCreateAPIView.as_view(),
-        name="payment_course"
+        name="payment_course",
     )
 ] + router.urls

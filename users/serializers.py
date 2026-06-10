@@ -19,4 +19,4 @@ class UserSerializer(ModelSerializer):
 class CoursePaySerializer(ModelSerializer):
     class Meta:
         model = CoursePay
-        fields ="__all__"
+        fields = "__all__"
