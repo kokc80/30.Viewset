@@ -25,4 +25,6 @@ pip install -r requirements.txt  установка зависимостей
 
     pip install stripe
     pip install forex-python
-	# 32.2 Документирование и безопасность АльтЗ.mp4 # 22:00 kokc@inbox.ri 678330-Pnp
+	# 32.2 Документирование и безопасность АльтЗ.mp4 #
+	22:00 kokc@inbox.ri 678330-Pnp
+	30:00 su@admin.ru 123qwe
