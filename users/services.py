@@ -15,21 +15,19 @@ def convert_rub_to_usd(ammount):
 def create_stripe_price(amount):
     """Создает цену в страйпе"""
 
-    # price = stripe.Price.create(
-    return stripe.Price.create(
+    price = stripe.Price.create(
         currency="USD",
         unit_amount=amount * 100,
         # recurring={"interval": "month"},
         product_data={"name": "Оплата курсов"},
     )
-    # return price
+    return price
 
-def create_stripe_session( price):
+def create_stripe_session(price):
     """Создает сессию на оплату в страйпе"""
-
     session = stripe.checkout.Session.create(
         success_url = "https://127.0.0.1:8000/",
-        line_items=[{"price": price.get("id"), "quantity": 1}],
+        line_items=[{"price": price.id, "quantity": 1}],
         mode="payment",
     )
-    return session.get("id"), session.get("url")
+    return session.id, session.url
