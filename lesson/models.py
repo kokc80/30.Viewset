@@ -80,6 +80,14 @@ class Lesson(models.Model):
         verbose_name="Владелец урока",
         help_text="Укажите владельца урока",
     )
+    likes = models.ManyToManyField(
+        User,
+        blank=True,
+        verbose_name="Лайки",
+        help_text = "Укажите лайки",
+        related_name = "user_likes",
+    )
+
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
@@ -129,5 +137,6 @@ class SubscriptionCourse(models.Model):
 
     def __str__(self):
         return f"Пользователь:{self.user}, Подписки: {self.course}"
+
 
 

@@ -13,8 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
-
-from django.conf.global_settings import AUTH_USER_MODEL
+# from django.conf.global_settings import AUTH_USER_MODEL
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -157,11 +156,19 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+
+
+CELERY_BROKER_URL = "redis:/localhost:6379/0"
+CElERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT =30*60
+
+CELERY_RESULT_BACKEND="redis:/localhost:6379/0"
 #
 # CORS_ALLOWED_ORIGINS = [
 #     '<http://localhost:8000>',  # Замените на адрес вашего фронтенд-сервера

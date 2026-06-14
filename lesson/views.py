@@ -1,8 +1,10 @@
 from django.contrib.admin.templatetags.admin_list import pagination
+from django.core.serializers import serialize
 from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import filters, generics
+from rest_framework.decorators import action
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -32,9 +34,7 @@ from rest_framework.response import Response
     operation_description="Описание метода list для модели Course"
 ))
 
-class CourseViewSet(
-    ModelViewSet
-):  # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
+class CourseViewSet(ModelViewSet):  # для курса ViewSet классы http://127.0.0.1:8000/course/1/ вывод количества уроков на курсе
     serializer_class = CourseSerializer
     queryset = Course.objects.all()  # нужен для роутер
     ordering_fields = ("name")
@@ -69,6 +69,17 @@ class CourseViewSet(
             permission_classes = [IsAuthenticated]
 
         return [permission() for permission in permission_classes]
+
+    @action(detail=True, methods=("post",))
+    def likes(self, request, pk):
+        lesson = get_object_or_404(Lesson, pk=pk)
+        if Lesson.likes.filter(pk=request.user.pk).exists():
+            lesson.likes.remove(request.user)
+        else:
+            lesson.likes.add(request.user)
+        serializer = self .get_serializer(lesson)
+        return Response(data=serializer.data)
+
 
 
 class LessonCreateApiView(CreateAPIView):  # для Lesson Generic классы
