@@ -75,6 +75,13 @@ class CourseViewSet(ModelViewSet):  # для курса ViewSet классы htt
 
         return [permission() for permission in permission_classes]
 
+    # 1) /lessons/6/likes/ может не работать в текущей реализации
+    # Маршрута для лайков урока нет.
+    # @ action написан внутри CourseViewSet, поэтому URL будет не lessons / ..., а примерно:
+    # POST /course/<pk>/likes/
+    # Но даже там логика сейчас некорректная, потому что внутри action берётся Lesson, а action висит на CourseViewSet.
+    # проверить логику лайки для курсов
+
     # @action(detail=True, methods=("post",))
     # def likes(self, request, pk):
     #     lesson = get_object_or_404(Lesson, pk=pk)
