@@ -28,6 +28,7 @@ from users import permissions
 from users.permissions import IsModer, IsNotModer, IsOwner
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from lesson.tasks import mail_update_course_info
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(
@@ -51,6 +52,10 @@ class CourseViewSet(ModelViewSet):  # для курса ViewSet классы htt
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+    def perform_update(self, serializer):
+        updated_course = serializer.save()
+        mail_update_course_info.delay(updated_course)
+        updated_course.save()
 
     def get_permissions(self):
         if self.action == "create":
@@ -77,9 +82,9 @@ class CourseViewSet(ModelViewSet):  # для курса ViewSet классы htt
             lesson.likes.remove(request.user)
         else:
             lesson.likes.add(request.user)
+            #add.delay
         serializer = self .get_serializer(lesson)
         return Response(data=serializer.data)
-
 
 
 class LessonCreateApiView(CreateAPIView):  # для Lesson Generic классы

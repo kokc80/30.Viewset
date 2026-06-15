@@ -28,3 +28,6 @@ pip install -r requirements.txt  установка зависимостей
 	# 32.2 Документирование и безопасность АльтЗ.mp4 #
 	22:00 kokc@inbox.ri 678330-Pnp
 	30:00 su@admin.ru 123qwe
+
+    pip install django_celery_beat
+	python manage.py migrate django_celery_beat

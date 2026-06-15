@@ -1,6 +1,20 @@
 from celery import shared_task
+from django.core.mail import send_mail
+from lesson.models import Course, SubscriptionCourse
+from config.settings import EMAIL_HOST_USER
 
 
 @shared_task
-def add():
-    print("Hello")
+def mail_update_course_info(course_id):
+    """Отправка сообщения об обновлении курса по подписке"""
+    subscription_course = SubscriptionCourse.objects.filter(course=course_id)
+    print(f"Найдено {len(subscription_course)} подписок на курс {course_id}")
+    for subscription in subscription_course:
+        print(f"Отправка электронного письма на {subscription.user.email}")
+        send_mail(
+            subject="Обновление материалов курса",
+            message=f'Курс {subscription.course.title} был обновлен.',
+            from_email=EMAIL_HOST_USER,
+            recipient_list=[subscription.user.email],
+            fail_silently=False
+        )

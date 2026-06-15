@@ -46,11 +46,12 @@ INSTALLED_APPS = [
     "django_filters",
     "rest_framework",
     "rest_framework_simplejwt",
-    'drf_yasg',
-    'corsheaders',
+    "drf_yasg",
+    "corsheaders",
     # My apps
     "users",
     "lesson",
+    "django_celery_beat"
 ]
 
 MIDDLEWARE = [
@@ -180,3 +181,17 @@ CELERY_RESULT_BACKEND="redis:/localhost:6379/0"
 # ]
 
 # CORS_ALLOW_ALL_ORIGINS = False
+
+# Настройки для яндекс почты
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_PORT = 465  # Исходящая почта, 992- Входящая почта
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
