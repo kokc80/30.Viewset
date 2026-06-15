@@ -75,16 +75,16 @@ class CourseViewSet(ModelViewSet):  # для курса ViewSet классы htt
 
         return [permission() for permission in permission_classes]
 
-    @action(detail=True, methods=("post",))
-    def likes(self, request, pk):
-        lesson = get_object_or_404(Lesson, pk=pk)
-        if Lesson.likes.filter(pk=request.user.pk).exists():
-            lesson.likes.remove(request.user)
-        else:
-            lesson.likes.add(request.user)
-            #add.delay
-        serializer = self .get_serializer(lesson)
-        return Response(data=serializer.data)
+    # @action(detail=True, methods=("post",))
+    # def likes(self, request, pk):
+    #     lesson = get_object_or_404(Lesson, pk=pk)
+    #     if Lesson.likes.filter(pk=request.user.pk).exists():
+    #         lesson.likes.remove(request.user)
+    #     else:
+    #         lesson.likes.add(request.user)
+    #         #add.delay
+    #     serializer = self .get_serializer(lesson)
+    #     return Response(data=serializer.data)
 
 
 class LessonCreateApiView(CreateAPIView):  # для Lesson Generic классы
