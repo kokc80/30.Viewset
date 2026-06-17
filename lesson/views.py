@@ -54,7 +54,7 @@ class CourseViewSet(ModelViewSet):  # для курса ViewSet классы htt
 
     def perform_update(self, serializer):
         updated_course = serializer.save()
-        mail_update_course_info.delay(updated_course)
+        mail_update_course_info.delay(updated_course.id)
         updated_course.save()
 
     def get_permissions(self):
