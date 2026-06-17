@@ -31,3 +31,10 @@ pip install -r requirements.txt  установка зависимостей
 
     pip install django_celery_beat
 	python manage.py migrate django_celery_beat
+
+
+	celery -A config worker -l INFO -P eventlet
+
+	очистка в redis-cli
+	select 0
+	FLUSHDB

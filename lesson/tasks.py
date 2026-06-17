@@ -10,6 +10,7 @@ from users.models import User
 @shared_task
 def mail_update_course_info(course_id):
     """Отправка сообщения об обновлении курса по подписке"""
+    print(f"Задача отправка письма запущена")
     course = Course.objects.get(id=course_id)
     subscription_course = SubscriptionCourse.objects.filter(course=course)
     print(f"Найдено {len(subscription_course)} подписок на курс {course_id}")
@@ -17,7 +18,7 @@ def mail_update_course_info(course_id):
         print(f"Отправка электронного письма на {subscription.user.email}")
         send_mail(
             subject="Обновление материалов курса",
-            message=f'Курс {subscription.course.title} был обновлен.',
+            message=f'Курс {subscription.course.name} был обновлен.',
             from_email=EMAIL_HOST_USER,
             recipient_list=[subscription.user.email],
             fail_silently=False
